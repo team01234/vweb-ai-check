@@ -41,6 +41,7 @@ br.mobile-pc { display: none; }
 .aic_input span { font-family: "Poppins", sans-serif; font-size: 0.94vw; color: #a2b3ca; margin-right: 0.3vw; }
 .aic_input input { flex: 1; min-width: 0; border: 0; outline: 0; font-family: inherit; font-size: 0.94vw; color: #111; background: transparent; }
 .aic_input input::placeholder { color: #b9b9b9; }
+.aic_input.typed span { display: none; }                    /* 입력이 시작되면 앞의 https:// 안내는 숨김 */
 .aic_btn { display: flex; justify-content: center; align-items: center; gap: 0.6vw; flex: 0 0 auto; height: 3.65vw; padding: 0 1.6vw; border: 0; border-radius: 0.52vw; background: #111; color: #fff; font-family: inherit; font-weight: 700; font-size: 1.04vw; cursor: pointer; transition: background .25s; }
 .aic_btn:hover { background: #000; }
 .aic_btn i { font-style: normal; transition: transform .25s; }
@@ -110,6 +111,8 @@ br.mobile-pc { display: none; }
 .aic_spinner { width: 2.6vw; height: 2.6vw; margin: 0 auto 1.2vw; border: 0.21vw solid #e9e9ff; border-top-color: #3235cd; border-radius: 50%; animation: aicSpin .8s linear infinite; }
 @keyframes aicSpin { to { transform: rotate(360deg); } }
 .aic_step { font-weight: 600; font-size: 1.04vw; color: #3235cd; }
+.aic_loading.err .aic_spinner { display: none; }
+.aic_loading.err .aic_step { color: #e5484d; }
 
 /* 결과 */
 .aic_result { display: none; margin-top: 2.6vw; }
@@ -139,7 +142,10 @@ br.mobile-pc { display: none; }
 .aic_bars li span { text-align: right; font-family: "Poppins", sans-serif; font-weight: 600; }
 
 .aic_issues { margin-top: 1.6vw; padding-top: 1.4vw; border-top: 1px solid #dcdcf5; }
-.aic_issues li { display: flex; gap: 0.8vw; margin-bottom: 0.7vw; font-size: 0.89vw; line-height: 1.55; }
+.aic_issues li { display: flex; gap: 0.8vw; margin-bottom: 0.9vw; font-size: 0.83vw; line-height: 1.6; color: #555; }
+.aic_issues li p b { display: block; margin-bottom: 0.15vw; font-weight: 600; font-size: 0.89vw; color: #111; }
+.aic_note { font-size: 0.78vw; line-height: 1.5; color: #b26a00; }
+.aic_note:empty { display: none; }
 .aic_issues li em { flex: 0 0 auto; display: flex; justify-content: center; align-items: center; width: 1.35vw; height: 1.35vw; border-radius: 50%; background: #3235cd; color: #fff; font-family: "Poppins", sans-serif; font-style: normal; font-weight: 600; font-size: 0.68vw; }
 
 /* AI 개선 제안 */
@@ -155,9 +161,30 @@ br.mobile-pc { display: none; }
 .aic_ai_lab span { padding: 0.2vw 0.6vw; border-radius: 2vw; background: #e9e9ff; color: #3235cd; font-family: "Poppins", sans-serif; font-weight: 600; font-size: 0.63vw; }
 .aic_ai_now { margin-bottom: 0.6vw; font-size: 0.78vw; color: #a2b3ca; }
 .aic_ai_now b { font-weight: 600; color: #ff5a5a; }
+.aic_ai_now b.has { color: #3235cd; }
 .aic_ai_txt { flex: 1; min-height: 5.5vw; padding: 1vw 1.1vw; border-radius: 0.6vw; background: #f3f3ff; font-size: 0.89vw; line-height: 1.65; color: #111; white-space: pre-line; }
 .aic_ai_txt.typing::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; background: #3235cd; vertical-align: -0.15em; animation: aicCaret .8s steps(1) infinite; }
 @keyframes aicCaret { 50% { opacity: 0; } }
+
+/* AI 코멘트 (점수와 별개의 참고 의견) */
+.aic_review { display: none; margin-top: 1.04vw; padding: 2.08vw 2.34vw; border-radius: 1.25vw; border: 1px dashed #c9caf5; background: #fff; }
+.aic_review.on { display: block; }
+.aic_review_head { display: flex; align-items: center; gap: 0.8vw; margin-bottom: 1.3vw; }
+.aic_review_head h4 { font-weight: 700; font-size: 1.15vw; }
+.aic_review_tag { padding: 0.25vw 0.75vw; border-radius: 2vw; background: #f3f3ff; color: #3235cd; font-weight: 600; font-size: 0.7vw; }
+.aic_cm_grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.04vw; }
+.aic_cm_box { padding: 1.5vw 1.6vw; border-radius: 1.04vw; background: #f3f3ff; }
+.aic_cm_box h5 { margin-bottom: 0.9vw; font-weight: 700; font-size: 0.94vw; }
+.aic_cm_pill { display: inline-block; padding: 0.2vw 0.7vw; border-radius: 2vw; font-weight: 700; font-size: 0.7vw; white-space: nowrap; }
+.aic_cm_pill.ok { background: #e3f6ec; color: #17814f; }
+.aic_cm_pill.warn { background: #fff3d6; color: #a15f00; }
+.aic_cm_pill.bad { background: #ffe5e5; color: #c93636; }
+.aic_cm_txt { margin-top: 0.8vw; font-size: 0.85vw; line-height: 1.6; color: #333; }
+.aic_cm_list li { padding: 0.75vw 0; border-top: 1px solid #dcdcf5; }
+.aic_cm_list li:first-child { padding-top: 0; border-top: 0; }
+.aic_cm_q { display: flex; justify-content: space-between; align-items: center; gap: 1vw; font-weight: 600; font-size: 0.89vw; }
+.aic_cm_ev { margin-top: 0.4vw; font-size: 0.78vw; line-height: 1.5; color: #777; }
+.aic_cm_note { grid-column: 1 / -1; font-size: 0.73vw; line-height: 1.5; color: #a2b3ca; }
 
 .aic_cta { display: flex; justify-content: space-between; align-items: center; gap: 2vw; margin-top: 1.04vw; padding: 1.56vw 2.34vw; border-radius: 1.25vw; border: 1px solid #e9e9ff; }
 .aic_cta p { font-size: 1.04vw; line-height: 1.5; }
@@ -243,7 +270,9 @@ br.mobile-pc { display: none; }
     .aic_bars li b small { font-size: 11px; margin-left: 4px; }
     .aic_track { height: 8px; }
     .aic_issues { margin-top: 20px; padding-top: 18px; }
-    .aic_issues li { gap: 10px; margin-bottom: 10px; font-size: 14px; }
+    .aic_issues li { gap: 10px; margin-bottom: 12px; font-size: 13px; }
+    .aic_issues li p b { margin-bottom: 2px; font-size: 14px; }
+    .aic_note { font-size: 12px; }
     .aic_issues li em { width: 20px; height: 20px; font-size: 11px; }
     .aic_ai { margin-top: 12px; padding: 24px; border-radius: 18px; }
     .aic_ai_head { flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
@@ -257,6 +286,19 @@ br.mobile-pc { display: none; }
     .aic_ai_lab span { padding: 3px 8px; font-size: 10px; border-radius: 20px; }
     .aic_ai_now { margin-bottom: 8px; font-size: 12px; }
     .aic_ai_txt { min-height: 0; padding: 14px; border-radius: 8px; font-size: 14px; }
+    .aic_review { margin-top: 12px; padding: 24px; border-radius: 18px; }
+    .aic_review_head { flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .aic_review_head h4 { font-size: 17px; }
+    .aic_review_tag { padding: 4px 10px; font-size: 11px; border-radius: 20px; }
+    .aic_cm_grid { grid-template-columns: 1fr; gap: 10px; }
+    .aic_cm_box { padding: 20px; border-radius: 14px; }
+    .aic_cm_box h5 { margin-bottom: 12px; font-size: 15px; }
+    .aic_cm_pill { padding: 3px 10px; font-size: 11px; border-radius: 20px; }
+    .aic_cm_txt { margin-top: 10px; font-size: 13px; }
+    .aic_cm_list li { padding: 12px 0; }
+    .aic_cm_q { flex-direction: column; align-items: flex-start; gap: 6px; font-size: 14px; }
+    .aic_cm_ev { margin-top: 6px; font-size: 12px; }
+    .aic_cm_note { font-size: 12px; }
     .aic_cta { flex-direction: column; align-items: stretch; gap: 16px; margin-top: 12px; padding: 24px; border-radius: 18px; }
     .aic_cta p { font-size: 15px; }
     .aic_cta_btns { gap: 8px; }
@@ -312,10 +354,10 @@ br.mobile-pc { display: none; }
                 <form class="aic_form" id="aic_form" novalidate>
                     <label class="aic_input">
                         <span>https://</span>
-                        <input type="text" id="aic_url" placeholder="홈페이지 주소를 입력하세요" autocomplete="off">
+                        <input type="text" id="aic_url" placeholder="홈페이지 주소를 입력하세요" autocomplete="off" aria-label="진단할 홈페이지 주소" aria-describedby="aic_err">
                     </label>
                     <button type="submit" class="aic_btn">무료 진단하기 <i>→</i></button>
-                    <p class="aic_err" id="aic_err">홈페이지 주소를 정확히 입력해주세요. (예: vweb.co.kr)</p>
+                    <p class="aic_err" id="aic_err" role="alert">홈페이지 주소를 정확히 입력해주세요. (예: vweb.co.kr)</p>
                 </form>
             </div>
 
@@ -369,7 +411,7 @@ br.mobile-pc { display: none; }
 
         <div class="aic_loading" id="aic_loading">
             <div class="aic_spinner"></div>
-            <p class="aic_step" id="aic_step">페이지를 불러오는 중입니다…</p>
+            <p class="aic_step" id="aic_step" role="status" aria-live="polite">페이지를 불러오는 중입니다…</p>
         </div>
 
         <div class="aic_result" id="aic_result">
@@ -398,12 +440,13 @@ br.mobile-pc { display: none; }
                 </div>
 
                 <div class="aic_detail">
-                    <h4>영역별 점수 <span class="aic_demo_tag">시연용 예시 결과</span></h4>
+                    <h4>영역별 점수 <span class="aic_demo_tag" id="aic_demo_tag">시연용 예시 결과</span></h4>
                     <ul class="aic_bars" id="aic_bars"></ul>
 
                     <div class="aic_issues">
                         <h4>지금 가장 먼저 고칠 3가지</h4>
                         <ul id="aic_issues"></ul>
+                        <p class="aic_note" id="aic_note"></p>
                     </div>
                 </div>
             </div>
@@ -415,6 +458,14 @@ br.mobile-pc { display: none; }
                     <p>진단 결과를 바탕으로 바로 적용할 수 있는 문구를 AI가 제안합니다.</p>
                 </div>
                 <ul class="aic_ai_list" id="aic_ai_list"></ul>
+            </div>
+
+            <div class="aic_review" id="aic_review">
+                <div class="aic_review_head">
+                    <h4>AI 코멘트</h4>
+                    <span class="aic_review_tag">참고용 AI 의견 · 점수에 반영되지 않습니다</span>
+                </div>
+                <div class="aic_cm_grid" id="aic_review_body"></div>
             </div>
 
             <div class="aic_cta">
@@ -436,10 +487,15 @@ br.mobile-pc { display: none; }
 
 <script>
 // V AI CHECK
-// 시안용: 결과는 주소별 예시 값 (실제 진단 기능은 별도 개발)
+// api/check.php 가 있으면 실제 진단, 없으면(정적 호스팅 등) 예시 결과로 대체
 (function () {
     var form = document.getElementById('aic_form');
     if (!form) return;
+
+    // GitHub Pages 에는 PHP 가 없어 진단 서버(PHP 8.2)의 API 를 부른다. 그 외(같은 서버에 올린 경우)는 같은 경로
+    var API_URL = /\.github\.io$/.test(location.hostname)
+        ? 'https://menyama.mycafe24.com/api/check.php'
+        : 'api/check.php';
 
     var CATS = [
         { key: 'seo',  name: '검색 기본', en: 'SEO',  max: 30 },
@@ -448,16 +504,23 @@ br.mobile-pc { display: none; }
         { key: 'tech', name: '기술 기반', en: 'TECH', max: 20 }
     ];
 
+    // 예시 결과용 문구
     var ISSUES = {
-        seo:  ['메인 페이지에 H1 제목이 없어 검색엔진이 핵심 주제를 파악하기 어렵습니다.',
-               '설명(alt)이 비어 있는 이미지가 많아 이미지 내용이 전달되지 않습니다.'],
-        aeo:  ['주요 문구가 이미지로만 되어 있어 AI가 내용을 읽지 못합니다.',
-               '자주 묻는 질문(FAQ) 영역이 없어 AI 답변에 인용되기 어렵습니다.',
-               '회사 · 매장 정보를 알려주는 구조화 데이터가 없습니다.'],
-        geo:  ['AI 크롤러의 접근 허용 여부가 robots 설정에 명시되어 있지 않습니다.',
-               '상호 · 주소 · 연락처가 이미지로만 표기되어 AI가 읽을 수 없습니다.'],
-        tech: ['페이지 용량이 커서 모바일 로딩이 느립니다.',
-               'SNS 공유 시 표시될 대표 이미지(OG) 설정이 없습니다.']
+        seo:  ['메인 제목(H1)이 없습니다.', '이미지 설명(alt)이 부족합니다.'],
+        aeo:  ['읽을 수 있는 텍스트가 적습니다.', '자주 묻는 질문(FAQ) 영역이 없습니다.', '구조화 데이터가 없습니다.'],
+        geo:  ['AI 검색 로봇 허용 여부가 명시되어 있지 않습니다.', '상호·주소·연락처가 텍스트로 확인되지 않습니다.'],
+        tech: ['페이지 응답이 느립니다.', 'SNS 공유 설정(OG)이 부족합니다.']
+    };
+    var DETAILS = {
+        '메인 제목(H1)이 없습니다.': '검색엔진과 AI가 이 페이지의 핵심 주제를 파악하기 어렵습니다.',
+        '이미지 설명(alt)이 부족합니다.': '설명이 없는 이미지가 많아 이미지 내용이 전달되지 않습니다.',
+        '읽을 수 있는 텍스트가 적습니다.': '주요 문구가 이미지로만 되어 있으면 AI가 내용을 읽지 못합니다.',
+        '자주 묻는 질문(FAQ) 영역이 없습니다.': 'AI는 질문과 답 형태의 내용을 답변에 인용하기 좋아합니다.',
+        '구조화 데이터가 없습니다.': '회사·매장 정보를 AI가 정확히 읽을 수 있도록 구조화 데이터를 적용해야 합니다.',
+        'AI 검색 로봇 허용 여부가 명시되어 있지 않습니다.': 'robots.txt 에 ChatGPT·Perplexity 등 AI 검색 로봇의 접근 허용을 명시하는 것이 좋습니다.',
+        '상호·주소·연락처가 텍스트로 확인되지 않습니다.': '정보가 이미지로만 되어 있으면 AI가 읽을 수 없습니다.',
+        '페이지 응답이 느립니다.': '이미지 용량과 서버 응답을 점검하는 것이 좋습니다.',
+        'SNS 공유 설정(OG)이 부족합니다.': '카카오톡 등으로 공유할 때 보이는 제목·설명·대표 이미지 설정이 부족합니다.'
     };
 
     var STEPS = [
@@ -470,16 +533,15 @@ br.mobile-pc { display: none; }
 
     var $ = function (id) { return document.getElementById(id); };
 
+    function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    }
+
     function normalize(v) {
         v = (v || '').trim().replace(/^https?:\/\//i, '').replace(/\/+$/, '');
         return /^[^\s\/]+\.[^\s\/]{2,}/.test(v) ? v : '';
-    }
-
-    // 시연용: 같은 주소는 항상 같은 점수
-    function seed(str) {
-        var h = 2166136261;
-        for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
-        return function () { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h >>> 0) % 1000) / 1000; };
     }
 
     function grade(t) {
@@ -488,42 +550,173 @@ br.mobile-pc { display: none; }
         return '개선 필요 · AI가 읽기 어려운 상태';
     }
 
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var url = normalize($('aic_url').value);
-        $('aic_err').classList.toggle('on', !url);
-        if (!url) return;
-
-        $('aic_result').classList.remove('on');
-        $('aic_loading').classList.add('on');
-        $('aic_scan').classList.add('scanning');
-        $('aic_browser_url').textContent = url;
-
-        var i = 0;
-        $('aic_step').textContent = STEPS[0];
-        var timer = setInterval(function () {
-            i++;
-            if (i < STEPS.length) { $('aic_step').textContent = STEPS[i]; return; }
-            clearInterval(timer);
-            $('aic_scan').classList.remove('scanning');
-            render(url, false);
-        }, 650);
-    });
-
-    var countTimer = null;
-    var typeTimers = [];
-
-    var SUGGEST = [
-        { lab: '메인 제목 (H1)', text: function (b) { return b + ' 공식 홈페이지 | 메뉴 · 매장 · 창업 안내'; } },
-        { lab: '메타 설명', text: function (b) { return b + ' 공식 홈페이지입니다. 대표 메뉴와 매장 위치, 가맹 창업 절차와 비용을 한 번에 확인하세요.'; } },
-        { lab: 'FAQ 문구', text: function (b) { return 'Q. ' + b + ' 창업 비용은 얼마인가요?\nA. 매장 규모와 입지에 따라 달라집니다. 창업 상담을 신청하시면 예상 비용을 안내해드립니다.'; } }
-    ];
+    // ---------- 예시 결과 ----------
+    function seed(str) {
+        var h = 2166136261;
+        for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+        return function () { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h >>> 0) % 1000) / 1000; };
+    }
 
     function brandOf(url, sample) {
         if (sample) return '샘플브랜드';
         var b = url.split('/')[0].replace(/^www\./i, '').split('.')[0];
         return (!b || /^xn--/i.test(b)) ? '브랜드' : b;
     }
+
+    function makeDemo(url, sample) {
+        var rnd = seed(url.toLowerCase());
+        var cats = {};
+        CATS.forEach(function (c) { cats[c.key] = { score: Math.round(c.max * (0.35 + rnd() * 0.55)), max: c.max }; });
+        var total = CATS.reduce(function (a, c) { return a + cats[c.key].score; }, 0);
+
+        var order = CATS.slice().sort(function (a, b) { return cats[a.key].score / a.max - cats[b.key].score / b.max; });
+        var picked = [];
+        for (var n = 0; picked.length < 3; n++) {
+            var list = ISSUES[order[n % order.length].key];
+            var t = list[Math.floor(n / order.length) % list.length];
+            if (picked.indexOf(t) < 0) picked.push(t);
+        }
+        var b = brandOf(url, sample);
+        return {
+            url: url, total: total, cats: cats, demo: true, notes: [],
+            issues: picked.map(function (t) { return { title: t, detail: DETAILS[t] || '' }; }),
+            suggest: {
+                h1: b + ' 공식 홈페이지 | 메뉴 · 매장 · 창업 안내',
+                meta: b + ' 공식 홈페이지입니다. 대표 메뉴와 매장 위치, 가맹 창업 절차와 비용을 한 번에 확인하세요.',
+                faq: 'Q. ' + b + ' 창업 비용은 얼마인가요?\nA. 매장 규모와 입지에 따라 달라집니다. 창업 상담을 신청하시면 예상 비용을 안내해드립니다.'
+            },
+            // 예시 화면(sample)에서만 가짜 AI 코멘트를 보여준다. 사용자가 입력한 주소의 예시 대체에는 넣지 않음
+            review: sample ? {
+                meta_fit: { verdict: 'partial', comment: '메타 설명이 업종은 알려주지만 지역과 창업 정보가 빠져 있어 검색 결과에서 차별점이 약합니다.' },
+                questions: [
+                    { q: '창업 비용은 얼마인가요?', status: 'not_found', evidence: '' },
+                    { q: '매장은 어디에 있나요?', status: 'found', evidence: '서울 강남구 선릉로 00길 00 1층' },
+                    { q: '대표 메뉴는 무엇인가요?', status: 'found', evidence: '시그니처 쌀국수, 분짜, 짜조' }
+                ]
+            } : null
+        };
+    }
+
+    // AI 코멘트 (점수와 별개). 서버가 정상 응답만 주더라도 화면 쪽에서 한 번 더 방어한다:
+    // 형식이 이상하면 카드만 숨기고 진단 결과는 그대로 보여준다. 모든 문구는 esc() 로 이스케이프
+    var META_LABEL = { match: ['일치', 'ok'], partial: ['보완 권장', 'warn'], mismatch: ['불일치', 'bad'], missing: ['설명 없음', 'bad'] };
+    function renderReview(rv) {
+        try {
+            if (!rv || typeof rv !== 'object' || !rv.meta_fit || typeof rv.meta_fit !== 'object' || !Array.isArray(rv.questions)) return '';
+            var v = rv.meta_fit.verdict;
+            if (typeof v !== 'string' || !Object.prototype.hasOwnProperty.call(META_LABEL, v)) return '';
+            var m = META_LABEL[v];
+            var qs = rv.questions.slice(0, 3).filter(function (q) { return q && typeof q === 'object' && q.q; });
+            if (!qs.length) return '';
+            var mtxt = v === 'missing'
+                ? '검색 결과에 표시될 소개 문구가 없어 내용과 맞는지 판단할 수 없습니다.'
+                : rv.meta_fit.comment;
+            var html = '<div class="aic_cm_box"><h5>메타 설명이 사업 내용과 맞나요?</h5>' +
+                       '<span class="aic_cm_pill ' + m[1] + '">' + m[0] + '</span>' +
+                       '<p class="aic_cm_txt">' + esc(mtxt) + '</p></div>';
+            html += '<div class="aic_cm_box"><h5>방문자가 궁금해할 질문에 답하고 있나요?</h5><ul class="aic_cm_list">' +
+                qs.map(function (q) {
+                    var ok = q.status === 'found';
+                    return '<li><div class="aic_cm_q"><span>' + esc(q.q) + '</span>' +
+                           '<span class="aic_cm_pill ' + (ok ? 'ok' : 'warn') + '">' + (ok ? '메인 페이지에서 확인됨' : '메인 페이지에서 확인되지 않음') + '</span></div>' +
+                           (ok && q.evidence ? '<p class="aic_cm_ev">“' + esc(q.evidence) + '”</p>' : '') + '</li>';
+                }).join('') + '</ul></div>';
+            html += '<p class="aic_cm_note">※ 메인 페이지 앞부분의 글자를 기준으로 한 AI 의견이며 정확하지 않을 수 있습니다. 페이지가 길면 뒷부분은 반영되지 않습니다.</p>';
+            return html;
+        } catch (e) {
+            return '';
+        }
+    }
+    // ---------- 진단 요청 ----------
+    var stepTimer = null;
+
+    function startSteps() {
+        var i = 0;
+        $('aic_loading').classList.remove('err');
+        $('aic_step').textContent = STEPS[0];
+        clearInterval(stepTimer);
+        stepTimer = setInterval(function () {
+            i = Math.min(i + 1, STEPS.length - 1);
+            $('aic_step').textContent = STEPS[i];
+        }, 1400);
+    }
+
+    function showError(msg) {
+        clearInterval(stepTimer);
+        $('aic_scan').classList.remove('scanning');
+        $('aic_loading').classList.add('err');
+        $('aic_step').textContent = msg;
+    }
+
+    var reqId = 0;
+    var busy = false;
+    var btn = form.querySelector('.aic_btn');
+
+    function setBusy(on) {
+        busy = on;
+        btn.disabled = on;
+        btn.style.opacity = on ? '.6' : '';
+    }
+
+    // 입력창에 글자가 있으면 앞의 https:// 안내를 숨기고, 비우면 다시 보여준다 (http:// 로 직접 입력해도 겹쳐 보이지 않게)
+    (function () {
+        var inp = $('aic_url'), box = inp.parentNode;
+        function sync() { box.classList.toggle('typed', inp.value.length > 0); }
+        inp.addEventListener('input', sync);
+        sync();
+    })();
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (busy) return;
+        var raw = $('aic_url').value;
+        var url = normalize(raw);
+        $('aic_err').classList.toggle('on', !url);
+        $('aic_url').setAttribute('aria-invalid', url ? 'false' : 'true');
+        if (!url) return;
+
+        var my = ++reqId;
+        setBusy(true);
+
+        $('aic_result').classList.remove('on');
+        $('aic_loading').classList.add('on');
+        $('aic_scan').classList.add('scanning');
+        $('aic_browser_url').textContent = url;
+        startSteps();
+
+        var started = Date.now();
+        var body = new FormData();
+        body.append('url', raw.trim());
+
+        fetch(API_URL, { method: 'POST', body: body })
+            .then(function (r) {
+                // 진단 API 가 없는 환경(정적 호스팅)이면 예시 결과
+                if (r.status === 404 || r.status === 405 || r.status === 501) return makeDemo(url, false);
+                return r.json().catch(function () { return { ok: false }; });
+            }, function () {
+                return { ok: false, message: '네트워크 연결을 확인한 뒤 다시 시도해주세요.' };
+            })
+            .then(function (d) {
+                // 진행 문구가 너무 빨리 끝나지 않게 최소 2.5초 유지
+                var wait = Math.max(0, 2500 - (Date.now() - started));
+                setTimeout(function () {
+                    if (my !== reqId) return;
+                    setBusy(false);
+                    if (!d || d.ok === false) {
+                        showError((d && d.message) || '진단 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                        return;
+                    }
+                    clearInterval(stepTimer);
+                    $('aic_scan').classList.remove('scanning');
+                    $('aic_loading').classList.remove('on');
+                    render(d, false, url);
+                }, wait);
+            });
+    });
+
+    // ---------- 결과 표시 ----------
+    var countTimer = null;
+    var typeTimers = [];
 
     function typeAll() {
         typeTimers.forEach(clearInterval);
@@ -548,50 +741,52 @@ br.mobile-pc { display: none; }
         typeAll();
     }, { threshold: 0.3 });
 
-    function render(url, sample) {
-        var rnd = seed(url.toLowerCase());
-        var scores = CATS.map(function (c) {
-            return Math.round(c.max * (0.35 + rnd() * 0.55));
-        });
-        var total = scores.reduce(function (a, b) { return a + b; }, 0);
+    // label: 사용자가 입력한 주소 (한글 도메인이 xn-- 로 보이지 않게)
+    function render(d, sample, label) {
+        var url = d.final_url ? d.final_url.replace(/^https?:\/\//i, '').replace(/\/$/, '') : d.url;
+        if (label && /(^|\.)xn--/i.test(url)) url = label;
+        var total = d.total;
 
-        // 점수 비율이 낮은 영역부터 문제 3개
-        var order = CATS.map(function (c, k) { return { c: c, r: scores[k] / c.max }; })
-                        .sort(function (a, b) { return a.r - b.r; });
-        var picked = [];
-        for (var n = 0; picked.length < 3; n++) {
-            var list = ISSUES[order[n % order.length].c.key];
-            var item = list[Math.floor(n / order.length) % list.length];
-            if (picked.indexOf(item) < 0) picked.push(item);
-        }
-
-        $('aic_bars').innerHTML = CATS.map(function (c, k) {
+        $('aic_bars').innerHTML = CATS.map(function (c) {
+            var s = d.cats[c.key];
             return '<li><b>' + c.name + '<small>' + c.en + '</small></b>' +
-                   '<div class="aic_track"><i data-w="' + (scores[k] / c.max * 100) + '"></i></div>' +
-                   '<span>' + scores[k] + '/' + c.max + '</span></li>';
+                   '<div class="aic_track"><i data-w="' + (s.score / s.max * 100) + '"></i></div>' +
+                   '<span>' + s.score + '/' + s.max + '</span></li>';
         }).join('');
-        $('aic_issues').innerHTML = picked.map(function (t, k) {
-            return '<li><em>' + (k + 1) + '</em><p>' + t + '</p></li>';
-        }).join('');
+        $('aic_issues').innerHTML = d.issues.length ? d.issues.map(function (it, k) {
+            return '<li><em>' + (k + 1) + '</em><p><b>' + esc(it.title) + '</b>' + esc(it.detail) + '</p></li>';
+        }).join('') : '<li><em>✓</em><p><b>큰 문제가 발견되지 않았습니다.</b>지금 상태를 유지하면서 콘텐츠를 꾸준히 보강해보세요.</p></li>';
+        $('aic_note').textContent = (d.notes || []).join(' ');
+        $('aic_demo_tag').style.display = d.demo ? '' : 'none';
         $('aic_grade').textContent = grade(total);
         $('aic_res_url').textContent = url;
-
-        var brand = brandOf(url, sample);
-        $('aic_ai_list').innerHTML = SUGGEST.map(function (g) {
-            return '<li><p class="aic_ai_lab">' + g.lab + '<span>AI</span></p>' +
-                   '<p class="aic_ai_now">현재 상태 <b>보완 필요</b></p>' +
-                   '<p class="aic_ai_txt"></p></li>';
-        }).join('');
-        document.querySelectorAll('#aic_ai_list .aic_ai_txt').forEach(function (el, k) {
-            el.dataset.text = SUGGEST[k].text(brand);
-            el.textContent = el.dataset.text;
-        });
         $('aic_res_title').textContent = sample ? '진단 결과 예시' : '진단 결과';
         $('aic_res_desc').innerHTML = sample
             ? '샘플 홈페이지 기준 화면입니다. <br class="mobile-pc">위에 주소를 입력해 직접 확인해보세요.'
-            : url.replace(/[<>&"]/g, '') + ' 진단 결과입니다.';
+            : esc(url) + ' 진단 결과입니다.';
 
-        $('aic_loading').classList.remove('on');
+        var sg = [
+            { key: 'h1',   lab: '메인 제목 (H1)', text: d.suggest.h1 },
+            { key: 'meta', lab: '메타 설명', text: d.suggest.meta },
+            { key: 'faq',  lab: 'FAQ 문구', text: d.suggest.faq }
+        ];
+        $('aic_ai_list').innerHTML = sg.map(function (g) {
+            var state = !d.current ? '<b>보완 필요</b>'
+                      : (d.current[g.key] ? '<b class="has">있음 · 다듬은 안</b>' : '<b>없음</b>');
+            return '<li><p class="aic_ai_lab">' + g.lab + '<span>AI</span></p>' +
+                   '<p class="aic_ai_now">현재 상태 ' + state + '</p>' +
+                   '<p class="aic_ai_txt"></p></li>';
+        }).join('');
+        document.querySelectorAll('#aic_ai_list .aic_ai_txt').forEach(function (el, k) {
+            el.dataset.text = sg[k].text || '';
+            el.textContent = el.dataset.text;
+        });
+
+        // AI 코멘트: 없으면(AI 실패·일일 상한·이전 캐시) 카드를 숨긴다
+        var cmHtml = renderReview(d.review);
+        $('aic_review_body').innerHTML = cmHtml;
+        $('aic_review').classList.toggle('on', cmHtml !== '');
+
         $('aic_result').classList.add('on');
 
         var bar = $('aic_gauge_bar');
@@ -621,8 +816,15 @@ br.mobile-pc { display: none; }
         }
     }
 
-    // 처음부터 예시 결과 노출
-    render('sample-franchise.co.kr', true);
+    // 진단 API 가 살아 있으면 예시 없이 입력창만 보여주고, API 가 없는 환경(정적 호스팅 등)일 때만 예시 결과를 노출
+    // (GET 요청에는 check.php 가 code:'method' 로 답한다. 404·HTML·네트워크 오류면 API 없음으로 본다)
+    fetch(API_URL).then(function (r) {
+        return r.json();
+    }).then(function (d) {
+        if (!d || d.code !== 'method') throw new Error('no api');
+    }).catch(function () {
+        render(makeDemo('sample-franchise.co.kr', true), true);
+    });
 
     // 스크롤 등장
     var io = new IntersectionObserver(function (es) {

@@ -1,0 +1,4 @@
+# check.php 외 파일 직접 접근 차단
+<FilesMatch "^(?!check\.php$).*\.php$">
+    Require all denied
+</FilesMatch>
