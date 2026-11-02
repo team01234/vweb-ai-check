@@ -484,8 +484,17 @@ function aic_diagnose($url, $cfg, $try_http = false)
     $cfg_main = $cfg;
     $cfg_main['deadline'] = $cfg['deadline'] - 10;
     $page = aic_fetch($url, $cfg_main);
-    if (!$page['ok'] && $try_http && in_array($page['error'], array('fetch_failed', 'timeout'), true) && strpos($url, 'https://') === 0) {
-        $page = aic_fetch('http://' . substr($url, 8), $cfg_main);
+    $http_fallback = false;
+    // 주소에 http(s)를 직접 적지 않은 경우, https 접속이 안 되거나(연결 실패·시간 초과) 거절당하면(401·403·406) http 로 한 번 더 시도
+    if (!$page['ok'] && $try_http && strpos($url, 'https://') === 0
+        && (in_array($page['error'], array('fetch_failed', 'timeout'), true) || in_array($page['code'], array(401, 403, 406), true))) {
+        $retry = aic_fetch('http://' . substr($url, 8), $cfg_main);
+        if ($retry['ok']) {
+            $page = $retry;
+            $http_fallback = true;
+        } elseif (in_array($page['error'], array('fetch_failed', 'timeout'), true)) {
+            $page = $retry;   // 기존 동작: 연결 실패·시간 초과는 http 시도 결과로 안내
+        }                     // 거절(401·403·406)은 https 응답 기준으로 안내
     }
     if (!$page['ok']) {
         return array('ok' => false, 'code' => $page['error'] ?: 'fetch_failed', 'message' => aic_fail_message($page));
@@ -756,6 +765,9 @@ function aic_diagnose($url, $cfg, $try_http = false)
     $notes = array();
     if ($text_len < 150 && ($script_count >= 3 || $spa_root)) {
         $notes[] = '스크립트로 화면을 그리는 사이트로 보여, 실제보다 점수가 낮게 나왔을 수 있습니다.';
+    }
+    if ($http_fallback) {
+        $notes[] = 'https:// 접속이 되지 않아 http:// 로 확인했습니다. 보안 연결(HTTPS)은 적용되지 않은 것으로 평가했습니다.';
     }
     if ($pages_checked > 1) {
         $notes[] = '메인 포함 ' . $pages_checked . '페이지를 확인했습니다.';
